@@ -1,0 +1,11 @@
+Image_Type array (DERIVED,SECONDARY,OTHER,SHM) \n
+Instance_Creation_Date date \n
+Instance_Creation_Time time \n
+SOP_Class_UID text \n
+SOP_Instance_UID text \n
+Study_Date date \n
+Content_Date date \n
+Study_Time time \n
+Accession_Number text \n
+Modality text \n
+Meric text \n

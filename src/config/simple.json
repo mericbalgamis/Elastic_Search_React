@@ -1,0 +1,119 @@
+{
+    "name": "Query Form",
+    "fields": [
+        {
+            "id": "image type",
+            "label": "Image Type",
+            "description": "",
+            "type": "array",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "definition": {
+                "options": [
+                    {
+                        "display": "DERIVED"
+                    },
+                    {
+                        "display": "SECONDARY"
+                    },
+                    {
+                        "display": "OTHER"
+                    },
+                    {
+                        "display": "SHM"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "instance creation date",
+            "label": "Instance Creation Date",
+            "description": "",
+            "type": "date",
+            "value": "",
+            "required": "false",
+            "placeholder": ""
+        },
+        {
+            "id": "instance creation time",
+            "label": "Instance Creation Time",
+            "description": "",
+            "type": "time",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "sop class uid",
+            "label": "SOP Class UID",
+            "description": "",
+            "type": "text",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "sop instance uid",
+            "label": "SOP Instance UID",
+            "description": "",
+            "type": "text",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "study date",
+            "label": "Study Date",
+            "description": "",
+            "type": "date",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "content date",
+            "label": "Content Date",
+            "description": "",
+            "type": "date",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "study time",
+            "label": "Study Time",
+            "description": "",
+            "type": "time",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "accession number",
+            "label": "Accession Number",
+            "description": "",
+            "type": "text",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        },
+        {
+            "id": "modality",
+            "label": "Modality",
+            "description": "",
+            "type": "text",
+            "value": "",
+            "required": "false",
+            "placeholder": "",
+            "defaultValue": ""
+        }
+    ]
+}
