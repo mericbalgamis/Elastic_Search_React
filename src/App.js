@@ -9,7 +9,7 @@ import txt from './datatypes.txt';
 import json from './config/simple.json';
 import axios from 'axios';
 import JSONPretty from 'react-json-prettify';
-import {github} from 'react-json-prettify/dist/themes';
+import { github } from 'react-json-prettify/dist/themes';
 
 
 
@@ -41,11 +41,11 @@ class App extends Component {
   }
 
   sendRequest() {
-    console.log("handleclick")
-    var panel=document.getElementById("resultPanel");
+    //console.log("handleclick")
+    var panel = document.getElementById("resultPanel");
     axios.get('http://127.0.0.1:5000/query')
       .then(response => {
-        console.log(response);
+        //console.log(response);
         this.setState({
           response: response.data
         })
@@ -53,10 +53,15 @@ class App extends Component {
       });
   }
 
+  generateQuery = (formResults) => {
+    console.log(formResults)
+  }
 
   submitHandler = (event) => {
     let json = JSON.stringify(event, null, 4);
-    console.log(json);
+    this.generateQuery(json);
+    this.sendRequest();
+    //console.log(json);
   }
 
   componentWillMount() {
@@ -86,7 +91,7 @@ class App extends Component {
               optionData.options.push({ "display": option });
             })
 
-            data = {
+            return {
               "id": name,
               "label": name,
               "description": "",
@@ -94,8 +99,10 @@ class App extends Component {
               "value": "",
               "required": "false",
               "placeholder": "",
-              "definition": optionData.options
+              "definition": optionData
             };
+            console.log(data)
+
           }
 
           else if (array.length === 3) {
@@ -115,11 +122,14 @@ class App extends Component {
           }
 
         })
+
         this.setState({
           form: {
             fields: dataArray
           }
         });
+        console.log(dataArray);
+
       })
   }
 
@@ -135,8 +145,6 @@ class App extends Component {
 
 
           <div>
-          <button onClick={() => this.sendRequest()}>baz</button>
-
             <Panel id="resultPanel"><JSONPretty json={this.state.response} theme={github} /></Panel>
           </div>
         </SplitterLayout>
