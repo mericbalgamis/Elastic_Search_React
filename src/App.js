@@ -10,7 +10,10 @@ import json from './config/simple.json';
 import axios from 'axios';
 import JSONPretty from 'react-json-prettify';
 import { github } from 'react-json-prettify/dist/themes';
+import queryBuilder from 'elastic-builder';
 
+//const elasticsearch = require('elastic-search');
+//const esb = require('elastic-builder');
 
 
 var formJson = {
@@ -54,14 +57,111 @@ class App extends Component {
   }
 
   generateQuery = (formResults) => {
-    console.log(formResults)
+    var form = JSON.parse(formResults);
+    //console.log(form.data[0].name)
+    //console.log(form.data[0].value)
+
+    // Bool query
+    const requestBody = queryBuilder.requestBodySearch().query(
+      queryBuilder.boolQuery()
+        .must(queryBuilder.matchQuery('last_name', 'smith'))
+        .filter(queryBuilder.rangeQuery('age').gt(30))
+    );
+    let json = JSON.stringify(requestBody, null, 4);
+
+      console.log(json)
+
+    /*
+    requestBody.toJSON();
+
+  "query": {
+    "bool": {
+      "must": {
+        "match": { "last_name": "smith" }
+      },
+      "filter": {
+        "range": { "age": { "gt": 30 } }
+      }
+    }
+  }
+}*/
+
+// Multi Match Query
+requestBody = queryBuilder.requestBodySearch().query(
+  queryBuilder.multiMatchQuery(['title', 'body'], 'Quick brown fox')
+    .type('best_fields')
+    .tieBreaker(0.3)
+    .minimumShouldMatch('30%')
+);
+/*
+requestBody.toJSON();
+{
+  "multi_match": {
+    "query": "Quick brown fox",
+    "type": "best_fields",
+    "fields": ["title", "body"],
+    "tie_breaker": 0.3,
+    "minimum_should_match": "30%"
+  }
+}*/
+
+// Aggregation
+requestBody = queryBuilder.requestBodySearch()
+  .size(0)
+  .agg(queryBuilder.termsAggregation('popular_colors', 'color'));
+
+  /*
+requestBody.toJSON();
+{
+  "size": 0,
+  "aggs": {
+    "popular_colors": {
+      "terms": { "field": "color" }
+    }
+  }
+}*/
+
+// Sort
+requestBody = queryBuilder.requestBodySearch()
+  .query(queryBuilder.boolQuery().filter(queryBuilder.termQuery('message', 'test')))
+  .sort(queryBuilder.sort('timestamp', 'desc'))
+  .sorts([
+    queryBuilder.sort('channel', 'desc'),
+    queryBuilder.sort('categories', 'desc'),
+    // The order defaults to desc when sorting on the _score,
+    // and defaults to asc when sorting on anything else.
+    queryBuilder.sort('content'),
+    queryBuilder.sort('price').order('desc').mode('avg')
+  ]);
+
+  /*
+requestBody.toJSON();
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": { "message": "test" }
+      }
+    }
+  },
+  "sort": [
+    { "timestamp": { "order": "desc" } },
+    { "channel": { "order": "desc" } },
+    { "categories": { "order": "desc" } },
+    "content",
+    { "price": { "order": "desc", "mode": "avg" } }
+  ]
+}*/
+
+
+    this.sendRequest();
+
   }
 
   submitHandler = (event) => {
     let json = JSON.stringify(event, null, 4);
     this.generateQuery(json);
-    this.sendRequest();
-    //console.log(json);
+    console.log(json);
   }
 
   componentWillMount() {
@@ -101,7 +201,6 @@ class App extends Component {
               "placeholder": "",
               "definition": optionData
             };
-            console.log(data)
 
           }
 
