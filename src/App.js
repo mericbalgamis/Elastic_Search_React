@@ -64,13 +64,14 @@ class App extends Component {
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
-        .must(queryBuilder.matchQuery('last_name', 'smith'))
-        .filter(queryBuilder.rangeQuery('age').gt(30))
+        .must(queryBuilder.matchQuery(form.data[0].name, form.data[0].value))
+        //.filter(queryBuilder.rangeQuery('age').gt(30))
     );
     let json = JSON.stringify(requestBody, null, 4);
 
       console.log(json)
 
+      
     /*
     requestBody.toJSON();
 
@@ -84,7 +85,7 @@ class App extends Component {
       }
     }
   }
-}*/
+}
 
 // Multi Match Query
 requestBody = queryBuilder.requestBodySearch().query(
@@ -93,7 +94,7 @@ requestBody = queryBuilder.requestBodySearch().query(
     .tieBreaker(0.3)
     .minimumShouldMatch('30%')
 );
-/*
+
 requestBody.toJSON();
 {
   "multi_match": {
@@ -103,14 +104,14 @@ requestBody.toJSON();
     "tie_breaker": 0.3,
     "minimum_should_match": "30%"
   }
-}*/
+}
 
 // Aggregation
 requestBody = queryBuilder.requestBodySearch()
   .size(0)
   .agg(queryBuilder.termsAggregation('popular_colors', 'color'));
 
-  /*
+  
 requestBody.toJSON();
 {
   "size": 0,
@@ -119,7 +120,7 @@ requestBody.toJSON();
       "terms": { "field": "color" }
     }
   }
-}*/
+}
 
 // Sort
 requestBody = queryBuilder.requestBodySearch()
@@ -134,7 +135,7 @@ requestBody = queryBuilder.requestBodySearch()
     queryBuilder.sort('price').order('desc').mode('avg')
   ]);
 
-  /*
+  
 requestBody.toJSON();
 {
   "query": {
@@ -151,16 +152,16 @@ requestBody.toJSON();
     "content",
     { "price": { "order": "desc", "mode": "avg" } }
   ]
-}*/
+}
+*/
 
-
-    this.sendRequest();
 
   }
 
   submitHandler = (event) => {
     let json = JSON.stringify(event, null, 4);
-    this.generateQuery(json);
+    //this.generateQuery(json);
+    this.sendRequest();
     console.log(json);
   }
 
