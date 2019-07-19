@@ -82,7 +82,7 @@ class App extends Component {
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
-        .must(queryBuilder.matchQuery(form.data[0].name, form.data[0].value))
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[0].name+".Value", form.data[0].value))
         //.filter(queryBuilder.rangeQuery('age').gt(30))
     );
     let json = JSON.stringify(requestBody, null, 4);
