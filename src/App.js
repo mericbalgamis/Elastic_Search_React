@@ -43,17 +43,35 @@ class App extends Component {
       })
   }
 
-  sendRequest() {
+  sendRequest(requestBody) {
     //console.log("handleclick")
     var panel = document.getElementById("resultPanel");
-    axios.get('http://127.0.0.1:5000/query')
-      .then(response => {
-        //console.log(response);
-        this.setState({
-          response: response.data
-        })
-        //panel.innerHTML=response.data; 
-      });
+      console.log("requestBody: "+requestBody)
+      fetch('http://127.0.0.1:5000/query', {
+      method: "POST",//Request Type 
+      body: requestBody,//post body 
+      headers: {//Header Defination 
+        'Content-Type': 'application/json',      },
+    })
+    .then((response) => response.json())
+    //If response is in json then in success
+    .then((responseJson) => {
+        alert(JSON.stringify(responseJson));
+        console.log(responseJson);
+    })
+    //If response is not in json then in error
+    .catch((error) => {
+      alert(JSON.stringify(error));
+      console.error(error);
+    });
+
+
+  }
+
+  submitHandler = (event) => {
+    let json = JSON.stringify(event, null, 4);
+    this.generateQuery(json);
+    console.log(json);
   }
 
   generateQuery = (formResults) => {
@@ -70,6 +88,7 @@ class App extends Component {
     let json = JSON.stringify(requestBody, null, 4);
 
       console.log(json)
+      this.sendRequest(json);
 
       
     /*
@@ -156,13 +175,6 @@ requestBody.toJSON();
 */
 
 
-  }
-
-  submitHandler = (event) => {
-    let json = JSON.stringify(event, null, 4);
-    //this.generateQuery(json);
-    this.sendRequest();
-    console.log(json);
   }
 
   componentWillMount() {
