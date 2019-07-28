@@ -28,24 +28,48 @@ const DynamicField = props => {
     const fieldSelector = props => {
         switch (props.type) {
             case 'text':
+                    return (
+                        <label htmlFor={props.id}>{props.label}
+                            <input
+                                name={props.id}
+                                type={props.type}
+                                onChange={onChange}
+                                className="form-control"
+                                aria-describedby={props.id}
+                                placeholder={props.placeholder}
+                                required={props.required === "true"} />
+                            <small id={props.id} className="form-text text-muted">{props.description}</small>
+                            </label>
+                )
             case 'date':
             case 'datetime-local':
             case 'time':
             case 'number':
             default:
-                return (
-                    <label htmlFor={props.id}>{props.label}
-                        <input
-                            name={props.id}
-                            type={props.type}
-                            onChange={onChange}
-                            className="form-control"
-                            aria-describedby={props.id}
-                            placeholder={props.placeholder}
-                            required={props.required === "true"} />
-                        <small id={props.id} className="form-text text-muted">{props.description}</small>
-                    </label>
-                )
+                    return (
+                        <label htmlFor={props.id}>{props.label}
+                            <input
+                                name={props.id}
+                                type={props.type}
+                                onChange={onChange}
+                                className="form-control1"
+                                aria-describedby={props.id}
+                                placeholder={props.placeholder}
+                                required={props.required === "true"} />
+                            <small id={props.id} className="form-text text-muted">{props.description}</small>
+                            <input
+                                name={props.id}
+                                type={props.type}
+                                onChange={onChange}
+                                className="form-control2"
+                                aria-describedby={props.id}
+                                placeholder={props.placeholder}
+                                required={props.required === "true"} />
+                            <small id={props.id} className="form-text text-muted">{props.description}</small>
+                        </label>
+                    )
+    
+              
 
             case 'checkbox': return (
                 <div className="form-check">

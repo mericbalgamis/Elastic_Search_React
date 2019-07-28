@@ -56,8 +56,9 @@ class App extends Component {
     .then((response) => response.json())
     //If response is in json then in success
     .then((responseJson) => {
-        alert(JSON.stringify(responseJson));
+        //alert(JSON.stringify(responseJson));
         console.log(responseJson);
+        panel.value = responseJson;
     })
     //If response is not in json then in error
     .catch((error) => {
@@ -78,11 +79,11 @@ class App extends Component {
     var form = JSON.parse(formResults);
     //console.log(form.data[0].name)
     //console.log(form.data[0].value)
-
+    var name = form.data[0].name.replace(" ","_");
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[0].name+".Value", form.data[0].value))
+        .must(queryBuilder.matchQuery("studies.DCMs."+name+".Value", form.data[0].value))
         //.filter(queryBuilder.rangeQuery('age').gt(30))
     );
     let json = JSON.stringify(requestBody, null, 4);
