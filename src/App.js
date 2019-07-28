@@ -60,7 +60,7 @@ class App extends Component {
         console.log(responseJson);
         panel.value = responseJson;
     })
-    //If response is not in json then in error
+    //If response is not in json then in error 
     .catch((error) => {
       alert(JSON.stringify(error));
       console.error(error);
@@ -77,14 +77,23 @@ class App extends Component {
 
   generateQuery = (formResults) => {
     var form = JSON.parse(formResults);
-    //console.log(form.data[0].name)
-    //console.log(form.data[0].value)
-    var name = form.data[0].name.replace(" ","_");
+
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
-        .must(queryBuilder.matchQuery("studies.DCMs."+name+".Value", form.data[0].value))
-        //.filter(queryBuilder.rangeQuery('age').gt(30))
+        /*.must(queryBuilder.matchQuery("studies.DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[1].name.replace(/ /g, '_')+".Value").gt(form.data[1].value).lte(form.data[2].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[3].name.replace(/ /g, '_')+".Value").gt(form.data[3].value).lte(form.data[4].value))
+        */
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[5].name.replace(/ /g, '_')+".Value", form.data[5].value))
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[6].name.replace(/ /g, '_')+".Value", form.data[6].value))
+        /*.filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[7].name.replace(/ /g, '_')+".Value").gt(form.data[7].value).lte(form.data[8].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[9].name.replace(/ /g, '_')+".Value").gt(form.data[9].value).lte(form.data[10].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[11].name.replace(/ /g, '_')+".Value").gt(form.data[11].value).lte(form.data[12].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[13].name.replace(/ /g, '_')+".Value").gt(form.data[13].value).lte(form.data[14].value))
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[15].name.replace(/ /g, '_')+".Value", form.data[15].value))
+        */
+
     );
     let json = JSON.stringify(requestBody, null, 4);
 
@@ -92,7 +101,7 @@ class App extends Component {
       this.sendRequest(json);
 
       
-    /*
+/*
     requestBody.toJSON();
 
   "query": {
