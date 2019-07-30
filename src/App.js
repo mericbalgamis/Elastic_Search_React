@@ -6,6 +6,7 @@ import Panel from 'muicss/lib/react/panel';
 import DynamicForm from './components/dynamicForm/dynamicForm';
 import myJson from './datatypes.json';
 import txt from './datatypes.txt';
+import txt_output from './datatypes_output.txt';
 import json from './config/simple.json';
 import axios from 'axios';
 import JSONPretty from 'react-json-prettify';
@@ -78,6 +79,7 @@ class App extends Component {
   generateQuery = (formResults) => {
     var form = JSON.parse(formResults);
 
+    /*
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
@@ -85,8 +87,8 @@ class App extends Component {
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[1].name.replace(/ /g, '_')+".Value").gt(form.data[1].value).lte(form.data[2].value))
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[3].name.replace(/ /g, '_')+".Value").gt(form.data[3].value).lte(form.data[4].value))
         */
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[5].name.replace(/ /g, '_')+".Value", form.data[5].value))
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[6].name.replace(/ /g, '_')+".Value", form.data[6].value))
+        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[5].name.replace(/ /g, '_')+".Value", form.data[5].value))
+        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[6].name.replace(/ /g, '_')+".Value", form.data[6].value))
         /*.filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[7].name.replace(/ /g, '_')+".Value").gt(form.data[7].value).lte(form.data[8].value))
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[9].name.replace(/ /g, '_')+".Value").gt(form.data[9].value).lte(form.data[10].value))
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[11].name.replace(/ /g, '_')+".Value").gt(form.data[11].value).lte(form.data[12].value))
@@ -94,7 +96,22 @@ class App extends Component {
         .must(queryBuilder.matchQuery("studies.DCMs."+form.data[15].name.replace(/ /g, '_')+".Value", form.data[15].value))
         */
 
+    //); 
+  
+
+    // Bool query
+    const requestBody = queryBuilder.requestBodySearch().query(
+      queryBuilder.boolQuery()
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
+        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[1].name.replace(/ /g, '_')+".Value", form.data[1].value))
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[2].name.replace(/ /g, '_')+".Value", form.data[2].value))
+        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[3].name.replace(/ /g, '_')+".Value", form.data[3].value))
+        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[4].name.replace(/ /g, '_')+".Value", form.data[4].value))
+
+
     );
+
+
     let json = JSON.stringify(requestBody, null, 4);
 
       console.log(json)
@@ -189,7 +206,7 @@ requestBody.toJSON();
 
   componentWillMount() {
 
-    fetch(txt)
+    fetch(txt_output)
       .then((r) => r.text())
       .then(text => {
         let myarray = text.split('\n');
