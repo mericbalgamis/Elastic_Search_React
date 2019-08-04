@@ -57,14 +57,14 @@ class App extends Component {
     .then((response) => response.json())
     //If response is in json then in success
     .then((responseJson) => {
-        //alert(JSON.stringify(responseJson));
+        alert(JSON.stringify(responseJson));
         console.log(responseJson);
         panel.value = responseJson;
     })
     //If response is not in json then in error 
     .catch((error) => {
       alert(JSON.stringify(error));
-      console.error(error);
+      //console.error(error);
     });
 
 
@@ -73,7 +73,7 @@ class App extends Component {
   submitHandler = (event) => {
     let json = JSON.stringify(event, null, 4);
     this.generateQuery(json);
-    console.log(json);
+    //console.log(json);
   }
 
   generateQuery = (formResults) => {
@@ -93,29 +93,29 @@ class App extends Component {
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[9].name.replace(/ /g, '_')+".Value").gt(form.data[9].value).lte(form.data[10].value))
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[11].name.replace(/ /g, '_')+".Value").gt(form.data[11].value).lte(form.data[12].value))
         .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[13].name.replace(/ /g, '_')+".Value").gt(form.data[13].value).lte(form.data[14].value))
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[15].name.replace(/ /g, '_')+".Value", form.data[15].value))
-        */
-
-    //); 
-  
+        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[15].name.replace(/ /g, '_')+".Value", form.data[15].value))  
+      */
 
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
-        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[1].name.replace(/ /g, '_')+".Value", form.data[1].value))
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[2].name.replace(/ /g, '_')+".Value", form.data[2].value))
-        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[3].name.replace(/ /g, '_')+".Value", form.data[3].value))
-        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[4].name.replace(/ /g, '_')+".Value", form.data[4].value))
-
-
+        .must(queryBuilder.matchQuery("DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
+        .must(queryBuilder.matchQuery("DCMs."+form.data[1].name.replace(/ /g, '_')+".Value", form.data[1].value))
+        .must(queryBuilder.matchQuery("DCMs."+form.data[2].name.replace(/ /g, '_')+".Value", form.data[2].value))
+        .must(queryBuilder.matchQuery("DCMs."+form.data[3].name.replace(/ /g, '_')+".Value", form.data[3].value))
+        .must(queryBuilder.matchQuery("DCMs."+form.data[4].name.replace(/ /g, '_')+".Value", form.data[4].value))
     );
+        
+    for (var i = form.data.length-1; i >= 0; i--) {
+        if(form.data[i].value == ""){
+          //console.log(i)
+          requestBody._body.query._body.bool.must.splice(i,1);
+          //console.log(query)
+          }    
+      } 
 
-
-    let json = JSON.stringify(requestBody, null, 4);
-
-      console.log(json)
-      this.sendRequest(json);
+    console.log(requestBody)
+    this.sendRequest(JSON.stringify(requestBody));
 
       
 /*
