@@ -47,25 +47,26 @@ class App extends Component {
   sendRequest(requestBody) {
     //console.log("handleclick")
     var panel = document.getElementById("resultPanel");
-      console.log("requestBody: "+requestBody)
-      fetch('http://127.0.0.1:5000/query', {
+    console.log("requestBody: " + requestBody)
+    fetch('http://127.0.0.1:5000/query', {
       method: "POST",//Request Type 
       body: requestBody,//post body 
       headers: {//Header Defination 
-        'Content-Type': 'application/json',      },
+        'Content-Type': 'application/json',
+      },
     })
-    .then((response) => response.json())
-    //If response is in json then in success
-    .then((responseJson) => {
+      .then((response) => response.json())
+      //If response is in json then in success
+      .then((responseJson) => {
         alert(JSON.stringify(responseJson));
         console.log(responseJson);
         panel.value = responseJson;
-    })
-    //If response is not in json then in error 
-    .catch((error) => {
-      alert(JSON.stringify(error));
-      //console.error(error);
-    });
+      })
+      //If response is not in json then in error 
+      .catch((error) => {
+        alert(JSON.stringify(error));
+        //console.error(error);
+      });
 
 
   }
@@ -79,134 +80,138 @@ class App extends Component {
   generateQuery = (formResults) => {
     var form = JSON.parse(formResults);
 
-    /*
-    // Bool query
-    const requestBody = queryBuilder.requestBodySearch().query(
-      queryBuilder.boolQuery()
-        /*.must(queryBuilder.matchQuery("studies.DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
-        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[1].name.replace(/ /g, '_')+".Value").gt(form.data[1].value).lte(form.data[2].value))
-        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[3].name.replace(/ /g, '_')+".Value").gt(form.data[3].value).lte(form.data[4].value))
-        */
-        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[5].name.replace(/ /g, '_')+".Value", form.data[5].value))
-        //.must(queryBuilder.matchQuery("studies.DCMs."+form.data[6].name.replace(/ /g, '_')+".Value", form.data[6].value))
-        /*.filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[7].name.replace(/ /g, '_')+".Value").gt(form.data[7].value).lte(form.data[8].value))
-        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[9].name.replace(/ /g, '_')+".Value").gt(form.data[9].value).lte(form.data[10].value))
-        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[11].name.replace(/ /g, '_')+".Value").gt(form.data[11].value).lte(form.data[12].value))
-        .filter(queryBuilder.rangeQuery("studies.DCMs."+form.data[13].name.replace(/ /g, '_')+".Value").gt(form.data[13].value).lte(form.data[14].value))
-        .must(queryBuilder.matchQuery("studies.DCMs."+form.data[15].name.replace(/ /g, '_')+".Value", form.data[15].value))  
-      */
 
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
-        .must(queryBuilder.matchQuery("DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
-        .must(queryBuilder.matchQuery("DCMs."+form.data[1].name.replace(/ /g, '_')+".Value", form.data[1].value))
-        .must(queryBuilder.matchQuery("DCMs."+form.data[2].name.replace(/ /g, '_')+".Value", form.data[2].value))
-        .must(queryBuilder.matchQuery("DCMs."+form.data[3].name.replace(/ /g, '_')+".Value", form.data[3].value))
-        .must(queryBuilder.matchQuery("DCMs."+form.data[4].name.replace(/ /g, '_')+".Value", form.data[4].value))
+        .must(queryBuilder.matchQuery("studies.DCMs." + form.data[0].name.replace(/ /g, '_') + ".Value", form.data[0].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs." + form.data[1].name.replace(/ /g, '_') + ".Value").gt(form.data[1].value).lte(form.data[2].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs." + form.data[3].name.replace(/ /g, '_') + ".Value").gt(form.data[3].value).lte(form.data[4].value))
+        .must(queryBuilder.matchQuery("studies.DCMs." + form.data[5].name.replace(/ /g, '_') + ".Value", form.data[5].value))
+        .must(queryBuilder.matchQuery("studies.DCMs." + form.data[6].name.replace(/ /g, '_') + ".Value", form.data[6].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs." + form.data[7].name.replace(/ /g, '_') + ".Value").gt(form.data[7].value).lte(form.data[8].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs." + form.data[9].name.replace(/ /g, '_') + ".Value").gt(form.data[9].value).lte(form.data[10].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs." + form.data[11].name.replace(/ /g, '_') + ".Value").gt(form.data[11].value).lte(form.data[12].value))
+        .filter(queryBuilder.rangeQuery("studies.DCMs." + form.data[13].name.replace(/ /g, '_') + ".Value").gt(form.data[13].value).lte(form.data[14].value))
+        .must(queryBuilder.matchQuery("studies.DCMs." + form.data[15].name.replace(/ /g, '_') + ".Value", form.data[15].value))
     );
-        
-    for (var i = form.data.length-1; i >= 0; i--) {
-        if(form.data[i].value == ""){
-          //console.log(i)
-          requestBody._body.query._body.bool.must.splice(i,1);
-          //console.log(query)
-          }    
-      } 
+
+    console.log(form)
+
+    // formu gezerek boş olan alanları request body den çıkarmak gerekiyor.
+
+    /*
+  // Bool query
+  const requestBody = queryBuilder.requestBodySearch().query(
+    queryBuilder.boolQuery()
+      .must(queryBuilder.matchQuery("DCMs."+form.data[0].name.replace(/ /g, '_')+".Value", form.data[0].value))
+      .must(queryBuilder.matchQuery("DCMs."+form.data[1].name.replace(/ /g, '_')+".Value", form.data[1].value))
+      .must(queryBuilder.matchQuery("DCMs."+form.data[2].name.replace(/ /g, '_')+".Value", form.data[2].value))
+      .must(queryBuilder.matchQuery("DCMs."+form.data[3].name.replace(/ /g, '_')+".Value", form.data[3].value))
+      .must(queryBuilder.matchQuery("DCMs."+form.data[4].name.replace(/ /g, '_')+".Value", form.data[4].value))
+  );
+    console.log(requestBody.toJSON())
+    for (var i = form.data.length - 1; i >= 0; i--) {
+      if (form.data[i].value == "" && ) {
+        //console.log(i)
+        requestBody._body.query._body.bool.must.splice(i, 1);
+        //console.log(query)
+      }
+    }*/
 
     console.log(requestBody)
     this.sendRequest(JSON.stringify(requestBody));
 
-      
-/*
+
+    /*
+        requestBody.toJSON();
+    
+      "query": {
+        "bool": {
+          "must": {
+            "match": { "last_name": "smith" }
+          },
+          "filter": {
+            "range": { "age": { "gt": 30 } }
+          }
+        }
+      }
+    }
+    
+    // Multi Match Query
+    requestBody = queryBuilder.requestBodySearch().query(
+      queryBuilder.multiMatchQuery(['title', 'body'], 'Quick brown fox')
+        .type('best_fields')
+        .tieBreaker(0.3)
+        .minimumShouldMatch('30%')
+    );
+    
     requestBody.toJSON();
-
-  "query": {
-    "bool": {
-      "must": {
-        "match": { "last_name": "smith" }
+    {
+      "multi_match": {
+        "query": "Quick brown fox",
+        "type": "best_fields",
+        "fields": ["title", "body"],
+        "tie_breaker": 0.3,
+        "minimum_should_match": "30%"
+      }
+    }
+    
+    // Aggregation
+    requestBody = queryBuilder.requestBodySearch()
+      .size(0)
+      .agg(queryBuilder.termsAggregation('popular_colors', 'color'));
+    
+      
+    requestBody.toJSON();
+    {
+      "size": 0,
+      "aggs": {
+        "popular_colors": {
+          "terms": { "field": "color" }
+        }
+      }
+    }
+    
+    // Sort
+    requestBody = queryBuilder.requestBodySearch()
+      .query(queryBuilder.boolQuery().filter(queryBuilder.termQuery('message', 'test')))
+      .sort(queryBuilder.sort('timestamp', 'desc'))
+      .sorts([
+        queryBuilder.sort('channel', 'desc'),
+        queryBuilder.sort('categories', 'desc'),
+        // The order defaults to desc when sorting on the _score,
+        // and defaults to asc when sorting on anything else.
+        queryBuilder.sort('content'),
+        queryBuilder.sort('price').order('desc').mode('avg')
+      ]);
+    
+      
+    requestBody.toJSON();
+    {
+      "query": {
+        "bool": {
+          "filter": {
+            "term": { "message": "test" }
+          }
+        }
       },
-      "filter": {
-        "range": { "age": { "gt": 30 } }
-      }
+      "sort": [
+        { "timestamp": { "order": "desc" } },
+        { "channel": { "order": "desc" } },
+        { "categories": { "order": "desc" } },
+        "content",
+        { "price": { "order": "desc", "mode": "avg" } }
+      ]
     }
-  }
-}
-
-// Multi Match Query
-requestBody = queryBuilder.requestBodySearch().query(
-  queryBuilder.multiMatchQuery(['title', 'body'], 'Quick brown fox')
-    .type('best_fields')
-    .tieBreaker(0.3)
-    .minimumShouldMatch('30%')
-);
-
-requestBody.toJSON();
-{
-  "multi_match": {
-    "query": "Quick brown fox",
-    "type": "best_fields",
-    "fields": ["title", "body"],
-    "tie_breaker": 0.3,
-    "minimum_should_match": "30%"
-  }
-}
-
-// Aggregation
-requestBody = queryBuilder.requestBodySearch()
-  .size(0)
-  .agg(queryBuilder.termsAggregation('popular_colors', 'color'));
-
-  
-requestBody.toJSON();
-{
-  "size": 0,
-  "aggs": {
-    "popular_colors": {
-      "terms": { "field": "color" }
-    }
-  }
-}
-
-// Sort
-requestBody = queryBuilder.requestBodySearch()
-  .query(queryBuilder.boolQuery().filter(queryBuilder.termQuery('message', 'test')))
-  .sort(queryBuilder.sort('timestamp', 'desc'))
-  .sorts([
-    queryBuilder.sort('channel', 'desc'),
-    queryBuilder.sort('categories', 'desc'),
-    // The order defaults to desc when sorting on the _score,
-    // and defaults to asc when sorting on anything else.
-    queryBuilder.sort('content'),
-    queryBuilder.sort('price').order('desc').mode('avg')
-  ]);
-
-  
-requestBody.toJSON();
-{
-  "query": {
-    "bool": {
-      "filter": {
-        "term": { "message": "test" }
-      }
-    }
-  },
-  "sort": [
-    { "timestamp": { "order": "desc" } },
-    { "channel": { "order": "desc" } },
-    { "categories": { "order": "desc" } },
-    "content",
-    { "price": { "order": "desc", "mode": "avg" } }
-  ]
-}
-*/
+    */
 
 
   }
 
   componentWillMount() {
 
-    fetch(txt_output)
+    fetch(txt)
       .then((r) => r.text())
       .then(text => {
         let myarray = text.split('\n');

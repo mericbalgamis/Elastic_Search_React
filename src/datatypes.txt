@@ -8,4 +8,3 @@ Content_Date date \n
 Study_Time time \n
 Accession_Number number \n
 Modality text \n
-Meric text \n
