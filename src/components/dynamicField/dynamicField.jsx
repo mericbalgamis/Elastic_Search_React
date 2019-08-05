@@ -48,6 +48,7 @@ const DynamicField = props => {
             default:
                     return (
                         <label htmlFor={props.id}>{props.label}
+                        <div>
                             <input
                                 name={props.id}
                                 type={props.type}
@@ -66,6 +67,7 @@ const DynamicField = props => {
                                 placeholder={props.placeholder}
                                 required={props.required === "true"} />
                             <small id={props.id} className="form-text text-muted">{props.description}</small>
+                            </div>
                         </label>
                     )
     

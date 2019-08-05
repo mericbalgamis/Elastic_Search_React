@@ -2,4 +2,4 @@ Modality text \n
 Institution_Name text \n
 Manufacturer text \n
 MR_Acquisition_Type text \n
-subset_id text \n
+Subset_id text \n

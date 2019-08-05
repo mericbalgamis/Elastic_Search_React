@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import './App.css';
 import SplitterLayout from 'react-splitter-layout';
+import CsvDownload from 'react-json-to-csv'
 import 'react-splitter-layout/lib/index.css';
 import Panel from 'muicss/lib/react/panel';
 import DynamicForm from './components/dynamicForm/dynamicForm';
@@ -16,8 +17,9 @@ import queryBuilder, { filtersAggregation } from 'elastic-builder';
 
 
 //const elasticsearch = require('elastic-search');
-//const esb = require('elastic-builder');
+//const esb = require('elasti
 
+var fileDownload = require('react-file-download');
 
 var formJson = {
   "name": "ABCz Form",
@@ -86,6 +88,15 @@ class App extends Component {
     //console.log(json);
   }
 
+
+  handleDownload = () => {
+    fileDownload(this.state.response, 'response.json');
+  }
+
+  handleCSV = () => {
+    fileDownload(this.state.response, 'response.json');
+  }
+
   removeEmptyFields = (requestBody, name, field) => {
     if (field == "filter") {
       //console.log(requestBody._body.query._body.bool.filter.length)
@@ -124,7 +135,9 @@ class App extends Component {
   generateQuery = (formResults) => {
 
     var form = JSON.parse(formResults);
+    let requestBodyUpdated;
 
+    /*
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
@@ -142,7 +155,6 @@ class App extends Component {
 
    
  
-    let requestBodyUpdated;
 
     for (var i = 0; i <= form.data.length - 1; i++) {
 
@@ -169,8 +181,8 @@ class App extends Component {
     }
 
     // formu gezerek boş olan alanları request body den çıkarmak gerekiyor.
-
-    /*
+    */
+    
   // Bool query
   const requestBody = queryBuilder.requestBodySearch().query(
     queryBuilder.boolQuery()
@@ -182,15 +194,15 @@ class App extends Component {
   );
     console.log(requestBody.toJSON())
     for (var i = form.data.length - 1; i >= 0; i--) {
-      if (form.data[i].value == "" && ) {
+      if (form.data[i].value == "" ) {
         //console.log(i)
         requestBody._body.query._body.bool.must.splice(i, 1);
         //console.log(query)
       }
-    }*/
+    }
 
-    console.log(requestBodyUpdated)
-    this.sendRequest(JSON.stringify(requestBodyUpdated));
+    console.log(requestBody)
+    this.sendRequest(JSON.stringify(requestBody));
 
 
     /*
@@ -281,7 +293,7 @@ class App extends Component {
 
   componentWillMount() {
 
-    fetch(txt)
+    fetch(txt_output)
       .then((r) => r.text())
       .then(text => {
         let myarray = text.split('\n');
@@ -352,14 +364,18 @@ class App extends Component {
       <div className="App">
 
         <SplitterLayout>
-          <div>Build a Query !
+          <div className="Form">
+          Build a Query ! 
+
             <DynamicForm id="form" config={this.state.form} onSubmit={(event) => this.submitHandler(event)}></DynamicForm>
 
           </div>
 
 
-          <div>
-            <Panel id="resultPanel"><JSONPretty json={this.state.response} theme={github} /></Panel>
+          <div className = "PanelRight">
+          <button id="download" onClick={() => this.handleDownload()}>Download</button>
+          <CsvDownload data={this.state.response}>Download as CSV</CsvDownload>
+            <JSONPretty id="resultPanel" json={this.state.response} theme={github} />
           </div>
         </SplitterLayout>
 
