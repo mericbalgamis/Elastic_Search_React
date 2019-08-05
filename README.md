@@ -1,71 +1,43 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
-In the project directory, you can run:
-
-### `yarn && yarn start`
+In this project consists of two parts, Phton and React. <br>
+&nbsp;&nbsp;&nbsp;1)ELASTIC SEARCH installation (https://www.elastic.co/downloads/elasticsearch) <br>
+&nbsp;&nbsp;&nbsp;2)Run bin/elasticsearch on unix, or bin\elasticsearch.bat on windows. <br>
+&nbsp;&nbsp;&nbsp;3)React installation (https://github.com/mericbalgamis/Elastic_Search_React.git) <br>
+&nbsp;&nbsp;&nbsp;4)$ `run app.py` <br>
+&nbsp;&nbsp;&nbsp;5)$ `yarn && yarn start` <br>
 
 Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-Runs the app with yarn version v1.17.3
-Runs the app with phyton version 3.6
-(yarns comes with yarns v1.17.3 , see https://yarnpkg.com/en/docs/install)
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.<br>
 
 ## Usage
 
-Load form and use datatypes.txt to write data and datatypes_output.txt to read data. 
-datatypes.txt of the fields are generic and any number of fields can be entered.For example, the sample form fields are as follows:
+Load form and use datatypes.txt to write data and datatypes_output.txt to read data. <br>
+datatypes.txt of the fields are generic and any number of fields can be entered. For example, the sample form fields are as follows:<br>
 
-  Image_Type array (DERIVED,SECONDARY,OTHER,SHM) \n
-  Instance_Creation_Date date \n
-  Instance_Creation_Time time \n
-  SOP_Class_UID text \n
-  SOP_Instance_UID text \n
-  Study_Date date \n
-  Content_Date date \n
-  Study_Time time \n
-  Accession_Number number \n
-  Modality text \n
+&nbsp;&nbsp;&nbsp;Image_Type array (DERIVED,SECONDARY,OTHER,SHM) \n <br>
+&nbsp;&nbsp;&nbsp;Instance_Creation_Date date \n <br>
+&nbsp;&nbsp;&nbsp;Instance_Creation_Time time \n <br>
+&nbsp;&nbsp;&nbsp;SOP_Class_UID text \n <br>
+&nbsp;&nbsp;&nbsp;SOP_Instance_UID text \n <br>
+&nbsp;&nbsp;&nbsp;Study_Date date \n <br>
+&nbsp;&nbsp;&nbsp;Content_Date date \n <br>
+&nbsp;&nbsp;&nbsp;Study_Time time \n <br>
+&nbsp;&nbsp;&nbsp;Accession_Number number \n <br>
+&nbsp;&nbsp;&nbsp;Modality text \n <br>
 
-datatypes_output.txt of the fields are generic and any number of fields can be entered.For example, the sample form fields are as follows:
+(Image_Type --> input json file's name, array ---> field's type) <br>
 
-  Modality text \n
-  Institution_Name text \n
-  Manufacturer text \n
-  MR_Acquisition_Type text \n
-  subset_id text \n
+datatypes_output.txt of the fields are generic and any number of fields can be entered.For example, the sample form fields are as follows:<br>
 
-## Learn More
+&nbsp;&nbsp;&nbsp;Modality text \n <br>
+&nbsp;&nbsp;&nbsp;Institution_Name text \n <br>
+&nbsp;&nbsp;&nbsp;Manufacturer text \n <br>
+&nbsp;&nbsp;&nbsp;MR_Acquisition_Type text \n <br>
+&nbsp;&nbsp;&nbsp;subset_id text \n <br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Versions
+Runs the app with yarn version v1.17.3<br>
+Runs the app with phyton version 3.6<br>
+(yarns comes with yarns v1.17.3 , see https://yarnpkg.com/en/docs/install)<br>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn start` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
