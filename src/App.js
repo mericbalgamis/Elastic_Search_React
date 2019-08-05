@@ -78,9 +78,9 @@ class App extends Component {
   }
 
   generateQuery = (formResults) => {
+
     var form = JSON.parse(formResults);
-
-
+    
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
@@ -97,6 +97,24 @@ class App extends Component {
     );
 
     console.log(form)
+/*
+    for (var i = 0; i <= form.data.length-1; i++) {
+
+      if(i != form.data.length-1 && form.data[i].name == form.data[i+1].name){
+        if(form.data[i].value == ""){
+          requestBody._body.query._body.bool.filter.splice(i,1)
+        }
+        i++;
+      }
+      else if(i == form.data.length){
+        if(form.data[i].value == "")
+          requestBody._body.query._body.bool.must.splice(i, 1);
+      }
+      else{
+        if(form.data[i].value == "")
+          requestBody._body.query._body.bool.must.splice(i, 1);
+      }
+    }*/
 
     // formu gezerek boş olan alanları request body den çıkarmak gerekiyor.
 
@@ -118,6 +136,9 @@ class App extends Component {
         //console.log(query)
       }
     }*/
+    requestBody._body.query._body.bool.filter.splice(0,1)
+    requestBody._body.query._body.bool.filter.splice(1,1)
+    requestBody._body.query._body.bool.filter.splice(2,1)
 
     console.log(requestBody)
     this.sendRequest(JSON.stringify(requestBody));
