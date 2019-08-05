@@ -9,9 +9,11 @@ import txt from './datatypes.txt';
 import txt_output from './datatypes_output.txt';
 import json from './config/simple.json';
 import axios from 'axios';
-import JSONPretty from 'react-json-prettify';
-import { github } from 'react-json-prettify/dist/themes';
-import queryBuilder from 'elastic-builder';
+import JSONPretty from 'react-json-pretty';
+import { github } from 'react-json-pretty/themes/monikai.css';
+
+import queryBuilder, { filtersAggregation } from 'elastic-builder';
+
 
 //const elasticsearch = require('elastic-search');
 //const esb = require('elastic-builder');
@@ -30,7 +32,7 @@ class App extends Component {
     this.state = {
 
       form: formJson,
-      response: ''
+      response: 'jghf'
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -58,9 +60,16 @@ class App extends Component {
       .then((response) => response.json())
       //If response is in json then in success
       .then((responseJson) => {
-        alert(JSON.stringify(responseJson));
+        //alert(JSON.stringify(responseJson));
         console.log(responseJson);
-        panel.value = responseJson;
+        const json=JSON.stringify(responseJson, null, 4)
+
+        
+        this.setState({
+
+            response: json
+          
+        });
       })
       //If response is not in json then in error 
       .catch((error) => {
@@ -77,10 +86,45 @@ class App extends Component {
     //console.log(json);
   }
 
+  removeEmptyFields = (requestBody, name, field) => {
+    if (field == "filter") {
+      //console.log(requestBody._body.query._body.bool.filter.length)
+      for (var i = 0; i < requestBody._body.query._body.bool.filter.length; i++) {
+        //console.log(requestBody._body.query._body.bool.filter[i]._field)
+        //requestBody._body.query._body.bool.filter.splice(i, 1)
+        //console.log(name+" "+requestBody._body.query._body.bool.filter[i]._field)
+        
+        if(requestBody._body.query._body.bool.filter[i]._field.includes(name.replace(/ /g, '_'))){
+          requestBody._body.query._body.bool.filter.splice(i,1)
+
+        }
+      }
+     
+
+    }
+    else if (field == "must") {
+      for (var i = 0; i < requestBody._body.query._body.bool.must.length; i++) {
+        //console.log(requestBody._body.query._body.bool.filter[i]._field)
+        //requestBody._body.query._body.bool.filter.splice(i, 1)
+        //requestBody._body.query._body.bool.filter[i]._field
+         
+        if(requestBody._body.query._body.bool.must[i]._field.includes(name.replace(/ /g, '_'))){
+          requestBody._body.query._body.bool.must.splice(i,1)
+
+        }
+      }
+      return requestBody;
+
+    }
+
+
+
+  }
+
   generateQuery = (formResults) => {
 
     var form = JSON.parse(formResults);
-    
+
     // Bool query
     const requestBody = queryBuilder.requestBodySearch().query(
       queryBuilder.boolQuery()
@@ -96,23 +140,31 @@ class App extends Component {
         .must(queryBuilder.matchQuery("studies.DCMs." + form.data[15].name.replace(/ /g, '_') + ".Value", form.data[15].value))
     );
 
-    console.log(form)
+   
+ 
+    let requestBodyUpdated;
 
-    for (var i = 0; i <= form.data.length-1; i++) {
+    for (var i = 0; i <= form.data.length - 1; i++) {
 
-      if(i != form.data.length-1 && form.data[i].name == form.data[i+1].name){
-        if(form.data[i].value == ""){
-          requestBody._body.query._body.bool.filter.splice(i,1)
+      if (i != form.data.length - 1 && form.data[i].name == form.data[i + 1].name) {
+        if (form.data[i].value == "") {
+          requestBodyUpdated=this.removeEmptyFields(requestBody, form.data[i].name, "filter")
+          //requestBody._body.query._body.bool.filter.splice(i,1)
         }
         i++;
       }
-      else if(i == form.data.length){
-        if(form.data[i].value == "")
-          requestBody._body.query._body.bool.must.splice(i, 1);
+      else if (i == form.data.length) {
+        if (form.data[i].value == ""){
+          requestBodyUpdated=this.removeEmptyFields(requestBody, form.data[i].name, "must")
+          //requestBody._body.query._body.bool.must.splice(i, 1);
+        }
       }
-      else{
-        if(form.data[i].value == "")
-          requestBody._body.query._body.bool.must.splice(i, 1);
+      else {
+        if (form.data[i].value == ""){
+          requestBodyUpdated=this.removeEmptyFields(requestBody, form.data[i].name, "must")
+
+        }
+          //requestBody._body.query._body.bool.must.splice(i, 1);
       }
     }
 
@@ -137,8 +189,8 @@ class App extends Component {
       }
     }*/
 
-    console.log(requestBody)
-    this.sendRequest(JSON.stringify(requestBody));
+    console.log(requestBodyUpdated)
+    this.sendRequest(JSON.stringify(requestBodyUpdated));
 
 
     /*
