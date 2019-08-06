@@ -1,21 +1,16 @@
 import React, { Component } from "react";
 import './App.css';
 import SplitterLayout from 'react-splitter-layout';
-import CsvDownload from 'react-json-to-csv'
 import 'react-splitter-layout/lib/index.css';
-import Panel from 'muicss/lib/react/panel';
 import DynamicForm from './components/dynamicForm/dynamicForm';
 import myJson from './datatypes.json';
 import txt_input from './datatypes.txt';
 import txt_output from './datatypes_output.txt';
-import json from './config/simple.json';
 import axios from 'axios';
-import { CSVLink } from "react-csv";
 import JSONPretty from 'react-json-pretty';
 import { github } from 'react-json-pretty/themes/monikai.css';
 import queryBuilder, { filtersAggregation } from 'elastic-builder';
 import Papa from  'papaparse';
-import { iif } from "rxjs";
 
 const form_type = "output";
 const output_query =
@@ -148,7 +143,7 @@ class App extends Component {
     this.state = {
 
       form: formJson,
-      response: 'jghf'
+      response: 'response'
     }
     this.handleClick = this.handleClick.bind(this)
   }
@@ -163,7 +158,6 @@ class App extends Component {
   }
 
   sendRequest(requestBody) {
-    //console.log("handleclick")
     var panel = document.getElementById("resultPanel");
     console.log("requestBody: " + requestBody)
     fetch('http://127.0.0.1:5000/query', {
