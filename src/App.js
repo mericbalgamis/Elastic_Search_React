@@ -10,9 +10,11 @@ import txt_input from './datatypes.txt';
 import txt_output from './datatypes_output.txt';
 import json from './config/simple.json';
 import axios from 'axios';
+import { CSVLink } from "react-csv";
 import JSONPretty from 'react-json-pretty';
 import { github } from 'react-json-pretty/themes/monikai.css';
 import queryBuilder, { filtersAggregation } from 'elastic-builder';
+import Papa from  'papaparse';
 import { iif } from "rxjs";
 
 const form_type = "output";
@@ -206,7 +208,8 @@ class App extends Component {
   }
 
   handleCSV = () => {
-    fileDownload(this.state.response, 'response.json');
+    var csv = Papa.unparse(output_query);
+    console.log(csv)
   }
 
   removeEmptyFields = (requestBody, name, field) => {
@@ -295,7 +298,7 @@ class App extends Component {
         delete requestBody._body.query._body.bool.must;
       }
 
-      if (requestBody._body.query._body.bool.filter.length != 0 ) {
+      if (requestBody._body.query._body.bool.filter.length != 0) {
 
         for (var i = 0; i < requestBody._body.query._body.bool.filter.length; i++) {
 
@@ -303,8 +306,8 @@ class App extends Component {
             let time_gt = requestBody._body.query._body.bool.filter[i]._queryOpts.gt;
             let time_lte = requestBody._body.query._body.bool.filter[i]._queryOpts.lte;
 
-            time_gt = time_gt.replace(":","");
-            time_lte = time_lte.replace(":","");
+            time_gt = time_gt.replace(":", "");
+            time_lte = time_lte.replace(":", "");
 
             time_gt = time_gt + "00.000";
             time_lte = time_lte + "00.000";
@@ -318,8 +321,8 @@ class App extends Component {
             let time_gt = requestBody._body.query._body.bool.filter[i]._queryOpts.gt;
             let time_lte = requestBody._body.query._body.bool.filter[i]._queryOpts.lte;
 
-            time_gt = time_gt.replace(":","");
-            time_lte = time_lte.replace(":","");
+            time_gt = time_gt.replace(":", "");
+            time_lte = time_lte.replace(":", "");
 
             time_gt = time_gt + "00.000";
             time_lte = time_lte + "00.000";
@@ -345,21 +348,21 @@ class App extends Component {
           .must(queryBuilder.matchQuery("DCMs." + form.data[1].name.replace(/ /g, '_') + ".Value", form.data[1].value))
           .must(queryBuilder.matchQuery("DCMs." + form.data[2].name.replace(/ /g, '_') + ".Value", form.data[2].value))
           .must(queryBuilder.matchQuery("DCMs." + form.data[3].name.replace(/ /g, '_') + ".Value", form.data[3].value))
-          .must(queryBuilder.matchQuery("DCMs." + form.data[4].name.replace(/ /g, '_') + ".Value", form.data[4].value))     
+          .must(queryBuilder.matchQuery("DCMs." + form.data[4].name.replace(/ /g, '_') + ".Value", form.data[4].value))
       );
-     
+
       console.log(requestBody.toJSON())
       for (var i = form.data.length - 1; i >= 0; i--) {
         if (form.data[i].value == "") {
           requestBody._body.query._body.bool.must.splice(i, 1);
         }
       }
-      
+
       let str_requestBody = (JSON.stringify(requestBody));
-      str_requestBody = str_requestBody.substring(0,str_requestBody.length-1);
+      str_requestBody = str_requestBody.substring(0, str_requestBody.length - 1);
       let str_output_query = JSON.stringify(output_query);
-      str_output_query = str_output_query.substring(1,str_output_query.length);
-      str_requestBody = str_requestBody + ","+str_output_query;
+      str_output_query = str_output_query.substring(1, str_output_query.length);
+      str_requestBody = str_requestBody + "," + str_output_query;
 
       this.sendRequest(str_requestBody);
     }
@@ -519,7 +522,8 @@ class App extends Component {
 
           <div className="PanelRight">
             <button id="download" onClick={() => this.handleDownload()}>Download</button>
-            <CsvDownload data={this.state.response}>Download as CSV</CsvDownload>
+            <button id="download" onClick={() => this.handleCSV()}>Download CSV</button>
+
             <JSONPretty id="resultPanel" json={this.state.response} theme={github} />
           </div>
         </SplitterLayout>

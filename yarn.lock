@@ -7125,6 +7125,11 @@ pako@~1.0.5:
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
   integrity sha512-0DTvPVU3ed8+HNXOu5Bs+o//Mbdj9VNQMUOe9oKCwh8l0GNwpTDMKCWbRjgtD291AWnkAgkqA/LOnQS8AmS1tw==
 
+papaparse@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.0.1.tgz#5243710e5468e659e23c77db0e0b010912960c15"
+  integrity sha512-LoM77aP/xSfZP645H3x1X0Qrf7klhGqHUfJH2KHIPvmB4uzezB/1bfvJKI0vp6zD5AfQF46J3URB7uz4Iqe0lg==
+
 parallel-transform@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/parallel-transform/-/parallel-transform-1.1.0.tgz#d410f065b05da23081fcd10f28854c29bda33b06"
@@ -8278,6 +8283,11 @@ react-app-polyfill@^1.0.1:
     raf "3.4.1"
     regenerator-runtime "0.13.2"
     whatwg-fetch "3.0.0"
+
+react-csv@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.1.1.tgz#718dadd2607a1795bfc8dbd32ca282a043739634"
+  integrity sha512-eQSrkEfzPN+1IeXT58kJaDNmpFr3RhdjfE09jTrw+jdTEp0g0Ig9NOI+TpvMBbCukE1HQhOf4dyrLDRFKgZzbA==
 
 react-dev-utils@^9.0.1:
   version "9.0.1"
