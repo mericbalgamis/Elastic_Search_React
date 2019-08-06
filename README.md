@@ -12,6 +12,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.<b
 
 ## Usage
 
+
+The type of form varies for input and output types.<br>
 Load form and use datatypes.txt to write data and datatypes_output.txt to read data. <br>
 datatypes.txt of the fields are generic and any number of fields can be entered. For example, the sample form fields are as follows:<br>
 
