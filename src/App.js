@@ -6,11 +6,12 @@ import DynamicForm from './components/dynamicForm/dynamicForm';
 import myJson from './datatypes.json';
 import txt_input from './datatypes.txt';
 import txt_output from './datatypes_output.txt';
+import form from './form_type.txt';
 import axios from 'axios';
 import JSONPretty from 'react-json-pretty';
 import { github } from 'react-json-pretty/themes/monikai.css';
 import queryBuilder, { filtersAggregation } from 'elastic-builder';
-import Papa from  'papaparse';
+import Papa from 'papaparse';
 
 const form_type = "output";
 const output_query =
@@ -128,6 +129,9 @@ const output_query =
     }
   }
 };
+
+const args = process.argv.slice(2);
+console.log(args)
 
 var fileDownload = require('react-file-download');
 var formJson = {
@@ -364,143 +368,148 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (form_type == "input") {
+    fetch(form)
+      .then((r) => r.text())
+      .then(form_type => {
 
-      fetch(txt_input)
-        .then((r) => r.text())
-        .then(text => {
-          let myarray = text.split('\n');
-          let dataArray = myarray.map((element, i) => {
+        if (form_type == "input") {
+
+          fetch(txt_input)
+            .then((r) => r.text())
+            .then(text => {
+              let myarray = text.split('\n');
+              let dataArray = myarray.map((element, i) => {
 
 
-            var array = element.split(' ');
+                var array = element.split(' ');
 
-            if (array.length === 4) {
+                if (array.length === 4) {
 
-              let name = array[0];
-              name = name.replace(/_/g, ' ');
-              let type = array[1];
-              let options = array[2];
-              options = options.replace(/\)/g, '');
-              options = options.replace(/\(/g, '');
-              let optionsArray = options.split(',');
+                  let name = array[0];
+                  name = name.replace(/_/g, ' ');
+                  let type = array[1];
+                  let options = array[2];
+                  options = options.replace(/\)/g, '');
+                  options = options.replace(/\(/g, '');
+                  let optionsArray = options.split(',');
 
-              var optionData = { "options": [] };
-              var data = {};
-              optionsArray.map((option, i) => {
-                optionData.options.push({ "display": option });
+                  var optionData = { "options": [] };
+                  var data = {};
+                  optionsArray.map((option, i) => {
+                    optionData.options.push({ "display": option });
+                  })
+
+                  return {
+                    "id": name,
+                    "label": name,
+                    "description": "",
+                    "type": type,
+                    "value": "",
+                    "required": "false",
+                    "placeholder": "",
+                    "definition": optionData
+                  };
+
+                }
+
+                else if (array.length === 3) {
+                  let name = array[0];
+                  name = name.replace(/_/g, ' ');
+                  let type = array[1];
+
+                  return {
+                    "id": name,
+                    "label": name,
+                    "description": "",
+                    "type": type,
+                    "value": "",
+                    "required": "false",
+                    "placeholder": ""
+                  };
+                }
+
               })
 
-              return {
-                "id": name,
-                "label": name,
-                "description": "",
-                "type": type,
-                "value": "",
-                "required": "false",
-                "placeholder": "",
-                "definition": optionData
-              };
+              this.setState({
+                form: {
+                  fields: dataArray
+                }
+              });
+              console.log(dataArray);
 
-            }
-
-            else if (array.length === 3) {
-              let name = array[0];
-              name = name.replace(/_/g, ' ');
-              let type = array[1];
-
-              return {
-                "id": name,
-                "label": name,
-                "description": "",
-                "type": type,
-                "value": "",
-                "required": "false",
-                "placeholder": ""
-              };
-            }
-
-          })
-
-          this.setState({
-            form: {
-              fields: dataArray
-            }
-          });
-          console.log(dataArray);
-
-        })
-    }
-    else if (form_type == "output") {
+            })
+        }
+        else if (form_type == "output") {
 
 
-      fetch(txt_output)
-        .then((r) => r.text())
-        .then(text => {
-          let myarray = text.split('\n');
-          let dataArray = myarray.map((element, i) => {
+          fetch(txt_output)
+            .then((r) => r.text())
+            .then(text => {
+              let myarray = text.split('\n');
+              let dataArray = myarray.map((element, i) => {
 
 
-            var array = element.split(' ');
+                var array = element.split(' ');
 
-            if (array.length === 4) {
+                if (array.length === 4) {
 
-              let name = array[0];
-              name = name.replace(/_/g, ' ');
-              let type = array[1];
-              let options = array[2];
-              options = options.replace(/\)/g, '');
-              options = options.replace(/\(/g, '');
-              let optionsArray = options.split(',');
+                  let name = array[0];
+                  name = name.replace(/_/g, ' ');
+                  let type = array[1];
+                  let options = array[2];
+                  options = options.replace(/\)/g, '');
+                  options = options.replace(/\(/g, '');
+                  let optionsArray = options.split(',');
 
-              var optionData = { "options": [] };
-              var data = {};
-              optionsArray.map((option, i) => {
-                optionData.options.push({ "display": option });
+                  var optionData = { "options": [] };
+                  var data = {};
+                  optionsArray.map((option, i) => {
+                    optionData.options.push({ "display": option });
+                  })
+
+                  return {
+                    "id": name,
+                    "label": name,
+                    "description": "",
+                    "type": type,
+                    "value": "",
+                    "required": "false",
+                    "placeholder": "",
+                    "definition": optionData
+                  };
+
+                }
+
+                else if (array.length === 3) {
+                  let name = array[0];
+                  name = name.replace(/_/g, ' ');
+                  let type = array[1];
+
+                  return {
+                    "id": name,
+                    "label": name,
+                    "description": "",
+                    "type": type,
+                    "value": "",
+                    "required": "false",
+                    "placeholder": ""
+                  };
+                }
+
               })
 
-              return {
-                "id": name,
-                "label": name,
-                "description": "",
-                "type": type,
-                "value": "",
-                "required": "false",
-                "placeholder": "",
-                "definition": optionData
-              };
+              this.setState({
+                form: {
+                  fields: dataArray
+                }
+              });
+              console.log(dataArray);
 
-            }
+            })
 
-            else if (array.length === 3) {
-              let name = array[0];
-              name = name.replace(/_/g, ' ');
-              let type = array[1];
-
-              return {
-                "id": name,
-                "label": name,
-                "description": "",
-                "type": type,
-                "value": "",
-                "required": "false",
-                "placeholder": ""
-              };
-            }
-
-          })
-
-          this.setState({
-            form: {
-              fields: dataArray
-            }
-          });
-          console.log(dataArray);
-
-        })
-
+        }
+      })
     }
-  }
 
   render() {
     return (
