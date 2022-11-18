@@ -17,7 +17,7 @@
     "react-json-prettify": "^0.1.4",
     "react-json-pretty": "^2.1.0",
     "react-json-to-csv": "^1.0.4",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-splitter-layout": "^4.0.0",
     "request": "^2.88.0"
   },
